@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITeCh</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+/* RESET & BASE */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', sans-serif; }
+html { scroll-behavior: smooth; }
+body { color:#e5e7eb; background: radial-gradient(circle at top, #1e40af 0, #020617 55%); overflow-x:hidden; display:flex; flex-direction:column; min-height:100vh; }
+main { flex:1; }
+
+/* HEADER */
+header {
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(15,23,42,0.92);
+  backdrop-filter:blur(16px);
+  color:#fff;
+  padding:16px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(148,163,184,0.4);
+  box-shadow:0 12px 30px rgba(15,23,42,0.7);
+  transition: padding 0.3s ease;
+}
+header .logo { font-size:1.8rem; font-weight:700; letter-spacing:1px; }
+header .logo span { color:#60a5fa; }
+
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:28px;
+  flex-wrap:wrap;
+}
+nav ul li a {
+  font-size:0.98rem;
+  font-weight:600;
+  color:#e5e7eb;
+  position:relative;
+  padding-bottom:3px;
+  transition:color 0.3s ease;
+}
+nav ul li a::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg, #3b82f6, #22d3ee);
+  transition:width 0.3s ease;
+}
+nav ul li a:hover { color:#bfdbfe; }
+nav ul li a:hover::after { width:100%; }
+
+/* NAV TOGGLE (MOBILE) */
+.nav-toggle { display:none; background:transparent; border:none; color:#e5e7eb; font-size:1.5rem; cursor:pointer; }
+
+/* HERO */
+.hero {
+  position:relative;
+  min-height:90vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:90px 20px;
+  overflow:hidden;
+}
+.hero-background {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(rgba(15,23,42,0.8), rgba(15,23,42,0.95)), url('https://images.unsplash.com/photo-1581090700227-0b23f1932ca2?auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
+  filter:saturate(1.2);
+  z-index:-2;
+}
+.hero-overlay {
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top, rgba(59,130,246,0.4), transparent 55%);
+  z-index:-1;
+}
+.hero-inner {
+  max-width:900px;
+  padding:40px 30px;
+  border-radius:24px;
+  background:rgba(15,23,42,0.82);
+  border:1px solid rgba(148,163,184,0.5);
+  box-shadow:0 0 0 1px rgba(59,130,246,0.25),0 24px 80px rgba(15,23,42,0.95);
+  backdrop-filter:blur(18px);
+}
+.hero-inner h1{
+  font-size:3rem;
+  margin-bottom:16px;
+  font-weight:700;
+  letter-spacing:0.03em;
+}
+.hero-inner h1 span { background:linear-gradient(90deg,#60a5fa,#22d3ee); -webkit-background-clip:text; color:transparent; }
+.hero-inner p{ font-size:1.15rem; margin-bottom:26px; color:#cbd5f5; max-width:700px; margin-inline:auto; }
+.hero-buttons{ margin-top:14px; display:flex; justify-content:center; flex-wrap:wrap; gap:14px; }
+.btn{ padding:0.75rem 1.6rem; border-radius:999px; border:none; cursor:pointer; font-weight:600; font-size:0.95rem; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+.btn-primary{ background:radial-gradient(circle at top left, #93c5fd,#3b82f6); color:#020617; box-shadow:0 0 18px rgba(59,130,246,0.9); }
+.btn-outline{ background:transparent; color:#e5e7eb; border:1px solid rgba(148,163,184,0.9); }
+.btn:hover{ transform:translateY(-2px); box-shadow:0 0 22px rgba(56,189,248,0.9); }
+
+/* SECTION HEADINGS */
+.section-heading{ font-size:2.3rem; margin-bottom:30px; color:#bfdbfe; text-align:center; letter-spacing:0.04em; }
+.section-heading span{ color:#38bdf8; }
+
+/* GENERIC SECTION PADDING */
+section { padding:40px 20px; }
+
+/* ABOUT BOXES */
+.about-inner{
+  background: rgba(15,23,42,0.9);
+  border-radius:22px;
+  padding:24px 22px 26px;
+  border:1px solid rgba(148,163,184,0.65);
+  box-shadow:0 24px 60px rgba(15,23,42,0.95);
+  backdrop-filter:blur(18px);
+  text-align:left;
+  margin-bottom:20px;
+}
+.about-inner h3{ color:#60a5fa; margin-bottom:10px; display:flex; align-items:center; }
+.about-inner p, .about-inner li{ color:#d1d5db; margin-bottom:8px; line-height:1.5; }
+.about-inner ul{ padding-left:20px; }
+
+/* ICONS IN ABOUT */
+.toc-box i, .about-inner h3 i { margin-right:8px; color:#22d3ee; }
+
+/* TABLE OF CONTENTS BOXES */
+.toc-box{
+  background:rgba(15,23,42,0.8);
+  border:1px solid #38bdf8;
+  padding:12px 16px;
+  border-radius:12px;
+  margin-bottom:10px;
+  transition:0.3s;
+  display:flex;
+  align-items:center;
+}
+.toc-box a{
+  color:#60a5fa;
+  font-weight:600;
+  text-decoration:none;
+}
+.toc-box:hover{
+  background:rgba(30,58,138,0.85);
+  transform:translateX(4px);
+}
+
+/* TWO-COLUMN ABOUT TOPICS */
+.about-topics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.about-topics .about-inner { margin-bottom:0; }
+
+/* JOBS TABLE */
+.jobs-table-wrapper{ width:100%; overflow-x:auto; margin-top:12px; }
+.jobs-table { width:100%; border-collapse:collapse; min-width:700px; }
+.jobs-table th, .jobs-table td{ border:1px solid #38bdf8; padding:10px; text-align:left; font-size:0.95rem; }
+.jobs-table th{ background:#1e40af; color:#fff; }
+
+/* TEAM / SERVICES */
+.services { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+.services .card img { width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:12px; }
+.services .card {
+  background:rgba(15,23,42,0.9);
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+  flex:1 1 220px;
+  border:1px solid rgba(59,130,246,0.5);
+  box-shadow:0 12px 24px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.services .card:hover { transform:translateY(-4px); box-shadow:0 16px 28px rgba(59,130,246,0.8); }
+
+/* CONTACT & MAP */
+.map-container iframe{ width:100%; height:300px; border:0; border-radius:12px; margin-bottom:20px; }
+
+/* LOGIN / SIGNUP MODAL */
+#login-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.auth-modal{
+  background:rgba(30,64,175,0.85);
+  border-radius:16px;
+  padding:32px;
+  max-width:400px;
+  width:90%;
+  box-shadow:0 8px 40px rgba(0,0,0,0.7);
+  text-align:center;
+}
+.auth-modal input{ width:90%; margin-bottom:12px; padding:10px; border-radius:8px; border:none; }
+
+/* RESPONSIVE */
+@media(max-width:1024px){ header { padding:14px 30px; } }
+@media(max-width:768px){
+  header { padding:12px 18px; gap:10px; }
+  .nav-toggle{ display:block; }
+  nav ul{ display:none; flex-direction:column; gap:14px; justify-content:center; align-items:center; margin-top:10px; }
+  nav ul.show{ display:flex; }
+  .hero-inner h1{ font-size:2.2rem; }
+  .hero-inner p{ font-size:1rem; }
+  .jobs-table th, .jobs-table td{ font-size:0.85rem; }
+  .services .card{ flex:1 1 100%; }
+}
+@media(max-width:480px){
+  .hero{ padding:80px 16px; }
+  .hero-inner{ padding:24px 16px; }
+  .section-heading{ font-size:1.8rem; }
+  .auth-modal{ padding:20px; }
+}
+
+/* SECTION REVEAL ANIMATION */
+.section-heading, .about-inner, .map-container, .jobs-table, .hero-inner, .services .card {
+  opacity:0;
+  transform:translateY(40px);
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN/SIGNUP OVERLAY -->
+<div id="login-overlay">
+  <div class="auth-modal">
+    <h2 style="color:#60a5fa; margin-bottom:20px;">Welcome to ITeCh4u</h2>
+    <div id="login-form">
+      <input id="username" type="text" placeholder="Username">
+      <input id="password" type="password" placeholder="Password">
+      <button onclick="login()" class="btn btn-primary" style="width:60%; margin-top:8px;">Log In</button>
+      <p style="color:#cbd5f5; margin-top:12px;">Don't have an account? <span onclick="showSignup()" style="color:#60a5fa; cursor:pointer;">Sign Up</span></p>
+    </div>
+    <div id="signup-form" style="display:none;">
+      <input id="signup-username" type="text" placeholder="Username">
+      <input id="signup-email" type="email" placeholder="Email">
+      <input id="signup-password" type="password" placeholder="Password">
+      <button onclick="signup()" class="btn btn-primary" style="width:60%; margin-top:8px;">Sign Up</button>
+      <p style="color:#cbd5f5; margin-top:12px;">Already have an account? <span onclick="showLogin()" style="color:#60a5fa; cursor:pointer;">Log In</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">I<span>TeCh</span></div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+  <nav>
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#references">References</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-background"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <h1>Welcome to <span>ITeCh4u</span></h1>
+    <p>Your trusted IT Professionals for Networking, Data, Software, and Security Solutions.</p>
+    <div id="typing-text"></div>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">About Us</button>
+      <button class="btn btn-outline" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about">
+  <h2 class="section-heading"><span>About</span> IT</h2>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="about-inner">
+    <h3>Table of Contents</h3>
+    <div class="toc-box"><i class="fas fa-server"></i><a href="#infrastructure">IT Infrastructure and Operations</a></div>
+    <div class="toc-box"><i class="fas fa-database"></i><a href="#data">Data and Database Management</a></div>
+    <div class="toc-box"><i class="fas fa-code"></i><a href="#software">Software Development and Web Technologies</a></div>
+    <div class="toc-box"><i class="fas fa-shield-alt"></i><a href="#security">Information Security and Ethics</a></div>
+    <div class="toc-box"><i class="fas fa-robot"></i><a href="#emerging">Emerging Technologies and Future Trends</a></div>
+    <div class="toc-box"><i class="fas fa-briefcase"></i><a href="#jobs-box">IT Jobs</a></div>
+  </div>
+
+  <!-- TWO-COLUMN ABOUT TOPICS -->
+  <div class="about-topics">
+    <div class="about-inner" id="infrastructure"><h3><i class="fas fa-server"></i>IT Infrastructure and Operations</h3><p>Addresses the essential components that make IT systems function effectively within an organization.</p></div>
+    <div class="about-inner" id="data"><h3><i class="fas fa-database"></i>Data and Database Management</h3><p>Focuses on robust data handling as the heart of IT operations.</p></div>
+    <div class="about-inner" id="software"><h3><i class="fas fa-code"></i>Software Development and Web Technologies</h3><p>Covers creation, deployment, and maintenance of applications and online platforms.</p></div>
+    <div class="about-inner" id="security"><h3><i class="fas fa-shield-alt"></i>Information Security and Ethics</h3><p>Protecting digital assets in an increasingly connected world.</p></div>
+    <div class="about-inner" id="emerging"><h3><i class="fas fa-robot"></i>Emerging Technologies and Future Trends</h3><p>Explores the latest innovations shaping the future of the IT field.</p></div>
+  </div>
+
+  <!-- IT JOBS -->
+  <div class="about-inner" id="jobs-box">
+    <h3><i class="fas fa-briefcase"></i>IT Job Opportunities</h3>
+    <div class="jobs-table-wrapper">
+      <table class="jobs-table">
+        <tr><th>Category</th><th>Position</th><th>Description</th></tr>
+        <tr><td>Networking</td><td>Network Administrator/Engineer</td><td>Oversees network operations, security, and maintenance.</td></tr>
+        <tr><td>Networking</td><td>Systems Administrator</td><td>Manages servers and computer systems for smooth operation.</td></tr>
+        <tr><td>Networking</td><td>Cloud Solutions Architect/Engineer</td><td>Designs and manages cloud infrastructure using AWS, Azure, or GCP.</td></tr>
+        <tr><td>Support &amp; Management</td><td>IT Support Specialist/Help Desk</td><td>First contact for troubleshooting hardware/software issues.</td></tr>
+        <tr><td>Support &amp; Management</td><td>IT Project Manager</td><td>Coordinates IT projects from start to finish.</td></tr>
+        <tr><td>Support &amp; Management</td><td>IT Consultant</td><td>Analyzes client IT systems and recommends improvements.</td></tr>
+        <tr><td>Support &amp; Management</td><td>Chief Information Officer / IT Manager</td><td>Oversees entire technology strategy and infrastructure.</td></tr>
+        <tr><td>Data &amp; Analytics</td><
+<td>Data Analyst</td><td>Collects, cleans, and interprets datasets for business decisions.</td></tr>
+<tr><td>Data &amp; Analytics</td><td>Data Scientist</td><td>Analyzes complex data using machine learning and statistics.</td></tr>
+<tr><td>Data &amp; Analytics</td><td>Database Administrator (DBA)</td><td>Ensures secure and efficient database management.</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM / SERVICES -->
+<section id="services-wrapper">
+  <h2 class="section-heading reveal">Our <span>Team</span></h2>
+  <div class="services">
+    <div class="card reveal">
+      <img src="images.png/" alt="Jemaica">
+      <h3>Jemaica U. Delos Reyes</h3>
+      <p>25-32708@g.batstate-u.edu.ph</p>
+    </div>
+    <div class="card reveal">
+      <img src="image.png/glen.jpg" alt="Glenn">
+      <h3>Glenn Jhozel J. Ogalesco</h3>
+      <p>25-33933@g.batstate-u.edu.ph</p>
+    </div>
+    <div class="card reveal">
+      <img src="image.png/eulisis.jpg" alt="John">
+      <h3>John Eulisis J. Talacay</h3>
+      <p>25-36947@g.batstate-u.edu.ph</p>
+    </div>
+  </div>
+
+  <!-- FUTURE LEADERS TEXT -->
+  <div class="about-inner" style="margin-top:25px;">
+    <h3>Meet the Future Leaders of the Digital World</h3>
+    <p>
+      Glenn Jhozel Ogalesco, Jemaica De Los Reyes, and John Eulisis Talacay, dedicated IT students at
+      Batangas State University TNEU Lipa, are rapidly building a foundation of technical excellence.
+      Armed with a passion for cutting-edge technology, this dynamic trio is engineering innovative
+      solutions and mastering the skills required to redefine the IT landscape. They represent the next
+      wave of tech talent, prepared to apply their technical expertise and innovative spirit to transform
+      the digital world.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="section-heading"><span>Contact</span> Us</h2>
+  <div class="about-inner">
+    <h3>Location: BSU Lipa Campus</h3>
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3852.942437625341!2d121.16401131538136!3d13.941116790721374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bdc98b9cbe0eab%3A0x9b2f5e2b80502d5!2sBatangas%20State%20University%20Lipa%20Campus!5e0!3m2!1sen!2sph!4v1702237563241!5m2!1sen!2sph" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <p>Email: <a href="mailto:info@ITeCh.com" style="color:#60a5fa;">info@itsolutions.com</a></p>
+    <p>Phone: +63 912 345 6789</p>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references">
+  <h2 class="section-heading"><span>References</span></h2>
+  <ul style="color:#d1d5db;">
+    <li><a href="https://builtin.com/learn/it" target="_blank" style="color:#60a5fa;">Built in</a></li>
+    <li><a href="https://www.lovemyonlinemarketing.com" target="_blank" style="color:#60a5fa;">Love My Online Marketing</a></li>
+    <li><a href="https://www.itweb.co.za/categories/VJBwErvnNDv6Db2G" target="_blank" style="color:#60a5fa;">IT Web</a></li>
+    <li><a href="https://onlineshs.com/information-and-communication-technology/" target="_blank" style="color:#60a5fa;">OEd Senior High School</a></li>
+    <li><a href="https://www.ninjaone.com/blog/information-technology-it-fundamentals-core-concepts/" target="_blank" style="color:#60a5fa;">Ninja One, LLC</a></li>
+    <li><a href="https://captainit.com/information-technology/" target="_blank" style="color:#60a5fa;">Captain IT</a></li>
+    <li><a href="https://www.ustangelicum.edu.ph/academics/college/academic-programs/information-techonology" target="_blank" style="color:#60a5fa;">UST Angelicum College</a></li>
+    <li><a href="https://www.genetsisgroup.com/en/ux-applied-to-digital-platforms/" target="_blank" style="color:#60a5fa;">Genetsis</a></li>
+    <li><a href="https://theknowledgeculture.com/2017/07/31/knowledge-management-strategy/" target="_blank" style="color:#60a5fa;">The Knowledge Culture</a></li>
+    <li><a href="https://resources.finalsite.net/images/v1720711353/asd5org/t5usxsgb95jmhupnimgl/IntroductiontoInformationTechnology.pdf" target="_blank" style="color:#60a5fa;">Finalsite PDF</a></li>
+    <li><a href="https://www.indeed.com/career-advice/career-development/it-industry" target="_blank" style="color:#60a5fa;">Indeed</a></li>
+  </ul>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer style="background: rgba(15,23,42,1); border-top:1px solid rgba(148,163,184,0.6); text-align:center; padding:18px 10px; color:#9ca3af; font-size:0.9rem; margin-top:40px;">
+  &copy; 2025 ITeCh. All rights reserved.
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+// Login/Signup functionality
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  if(username && password) { document.getElementById('login-overlay').style.display = 'none'; }
+  else { alert('Please enter username and password.'); }
+}
+function signup() {
+  const username = document.getElementById('signup-username').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  if(username && email && password) { alert('Account created! Please log in.'); showLogin(); }
+  else { alert('Please fill in all fields.'); }
+}
+function showSignup() { document.getElementById('login-form').style.display = 'none'; document.getElementById('signup-form').style.display = 'block'; }
+function showLogin() { document.getElementById('signup-form').style.display = 'none'; document.getElementById('login-form').style.display = 'block'; }
+
+// Mobile nav toggle
+const navToggle = document.getElementById('nav-toggle');
+const navMenu = document.querySelector('nav ul');
+if(navToggle && navMenu){
+  navToggle.addEventListener('click', () => { navMenu.classList.toggle('show'); });
+}
+
+// Reveal animation
+const revealElements = document.querySelectorAll('.section-heading, .about-inner, .map-container, .jobs-table, .hero-inner, .services .card');
+function handleReveal() {
+  const windowHeight = window.innerHeight;
+  const revealPoint = 150;
+  revealElements.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if(top < windowHeight - revealPoint){
+      el.style.opacity = 1;
+      el.style.transform = 'translateY(0)';
+      el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+    } else {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(40px)';
+    }
+  });
+}
+window.addEventListener('scroll', handleReveal);
+window.addEventListener('load', handleReveal);
+
+// Typing effect in hero section
+const typingText = document.getElementById('typing-text');
+typingText.style.color = '#cbd5f5';
+const messages = ["Networking.", "Data & Analytics.", "Software Development.", "Cybersecurity.", "IT Consulting."];
+let msgIndex = 0, charIndex = 0;
+function typeMessage() {
+  if(charIndex < messages[msgIndex].length) {
+    typingText.textContent += messages[msgIndex].charAt(charIndex);
+    charIndex++;
+    setTimeout(typeMessage, 100);
+  } else { setTimeout(eraseMessage, 1500); }
+}
+function eraseMessage() {
+  if(charIndex > 0) {
+    typingText.textContent = messages[msgIndex].substring(0, charIndex-1);
+    charIndex--;
+    setTimeout(eraseMessage, 50);
+  } else { msgIndex = (msgIndex + 1) % messages.length; setTimeout(typeMessage, 300); }
+}
+typeMessage();
+</script>
+
+</body>
+</html>
